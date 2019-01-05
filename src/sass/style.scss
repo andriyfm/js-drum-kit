@@ -2,8 +2,49 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   color: rgb(49, 49, 49);
+  // background: url('https://source.unsplash.com/music');
   background: url('../img/mohammad-metri-421904-unsplash.jpg');
   background-size: cover;
   background-position: top center;
   background-attachment: fixed;
+}
+
+section {
+  height: 500px;
+}
+
+.keys {
+  position: relative;
+  top: 500px;
+}
+
+.key {
+  background: transparentize($color: #1F1A17, $amount: 0.3);
+  border: 2px solid #39251F;
+  border-radius: 6px;
+  width: 80px;
+  height: 80px;
+  transition: all 0.07s;
+  margin: 0 5px;
+
+  kbd {
+    display: block;
+    font-size: 36px;
+    line-height: 1.30;
+    border-radius: 0;
+    background: transparent;
+    color: #7C2B1A;
+  }
+
+  span {
+    font-size: 12px;
+    display: block;
+    color: #E2E9D6;
+  }
+}
+
+.playing {
+  transform: scale(1.1);
+  border-color: #BC6241;
+  box-shadow: 0 0 10px #BC6241;
 }

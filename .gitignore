@@ -1,2 +1,9 @@
 # Node Packages
 node_modules
+
+# Audio and Image Folder
+src/audio
+src/img
+
+# Distribution Folder
+dist

@@ -10,6 +10,7 @@ const uglify = require('gulp-uglify')
 const sourcemaps = require('gulp-sourcemaps')
 const concat = require('gulp-concat')
 const imagemin = require('gulp-imagemin')
+const gulpBase64 = require("gulp-to-base64")
 
 // Define sass compiler
 sass.compiler = require('node-sass')
@@ -42,11 +43,46 @@ const minifyImageTask = () => {
     .pipe(dest('dist/img/'))
 }
 
+// Comporess and Minify Sound Files
+const base64Task = () => {
+  return src('src/audio/*.{mp3,wav,WAV}')
+    .pipe(gulpBase64({ size: true, outPath: 'dist/drum-kit.json.js' }))
+    .pipe(dest('dist/audio/'))
+}
+
 // Compile pug file into html file
 const pugTask = () => {
   return src(['src/pug/index.pug'])
     .pipe(pug({
-      pretty: true
+      pretty: true,
+      data: {
+        title: 'Javascript Drum Kit',
+        keys: [{
+          char: 'Q', code: '81', audio: 'audio/SynDr101.WAV'
+        },{
+          char: 'W', code: '87', audio: 'audio/SynDr102.WAV'
+        },{
+          char: 'E', code: '69', audio: 'audio/SynDr103.WAV'
+        },{
+          char: 'R', code: '82', audio: 'audio/SynDr104.WAV'
+        },{
+          char: 'T', code: '84', audio: 'audio/SynDr105.WAV'
+        },{
+          char: 'Y', code: '89', audio: 'audio/SynDr106.WAV'
+        },{
+          char: 'A', code: '65', audio: 'audio/SynDr113.WAV'
+        },{
+          char: 'S', code: '83', audio: 'audio/SynDr108.WAV'
+        },{
+          char: 'D', code: '68', audio: 'audio/SynDr109.WAV'
+        },{
+          char: 'F', code: '70', audio: 'audio/SynDr110.WAV'
+        },{
+          char: 'G', code: '71', audio: 'audio/SynDr111.WAV'
+        },{
+          char: 'H', code: '72', audio: 'audio/SynDr112.WAV'
+        }]
+      }
     }))
     .pipe(dest('dist/'))
 }
@@ -75,13 +111,14 @@ const watchTask = () => {
     [
       'src/sass/**/*.scss',
       'src/pug/index.pug',
-      'src/js/main.js'
+      'src/js/module1.js',
     ],
     series(
-      minifyImageTask,
       parallel(sassTask, minifySassTask),
       parallel(bundleJavascriptTask),
-      pugTask
+      pugTask,
+      base64Task,
+      minifyImageTask
     )
   )
 }

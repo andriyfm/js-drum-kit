@@ -1,3 +1,18 @@
 extends layout.pug
+
 block meta
-  title Javascript Drum Kit
+  title= locals.title
+
+block script
+  script(src="js/bundle.js")
+
+block main
+  section.container.text-center.py-5
+    div.d-flex.justify-content-center.keys
+      each el in locals.keys
+        div.key(data-key=el.code)
+          kbd= el.char
+          span TEXT
+
+    each el in locals.keys
+      audio(data-key=el.code src=el.audio)
