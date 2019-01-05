@@ -15,9 +15,9 @@ const gulpBase64 = require("gulp-to-base64")
 // Define sass compiler
 sass.compiler = require('node-sass')
 
-// Removing dist folder
+// Removing docs folder
 const cleanTask = function () {
-  return src('dist/**', { read: false })
+  return src('docs/**', { read: false })
     .pipe(clean())
 }
 
@@ -25,7 +25,7 @@ const cleanTask = function () {
 const sassTask = function () {
   return src('src/sass/**/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(dest('dist/css/'))
+    .pipe(dest('docs/css/'))
 }
 
 // Minify file sass
@@ -33,21 +33,21 @@ const minifySassTask = function () {
   return src('src/sass/style.scss')
     .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
     .pipe(rename({ extname: '.min.css' }))
-    .pipe(dest('dist/css'))
+    .pipe(dest('docs/css'))
 }
 
 // Compress and Minify Image
 const minifyImageTask = () => {
   return src('src/img/**/*.jpg')
     .pipe(imagemin({ progressive: true }))
-    .pipe(dest('dist/img/'))
+    .pipe(dest('docs/img/'))
 }
 
 // Comporess and Minify Sound Files
 const base64Task = () => {
   return src('src/audio/*.{mp3,wav,WAV}')
-    .pipe(gulpBase64({ size: true, outPath: 'dist/drum-kit.json.js' }))
-    .pipe(dest('dist/audio/'))
+    .pipe(gulpBase64({ size: true, outPath: 'docs/drum-kit.json.js' }))
+    .pipe(dest('docs/audio/'))
 }
 
 // Compile pug file into html file
@@ -84,7 +84,7 @@ const pugTask = () => {
         }]
       }
     }))
-    .pipe(dest('dist/'))
+    .pipe(dest('docs/'))
 }
 
 // Compile js using babel
@@ -94,7 +94,7 @@ const bundleJavascriptTask = () => {
     .pipe(babel({ presets: ['@babel/env'] }))
     .pipe(concat('bundle.js'))
     .pipe(sourcemaps.write('.'))
-    .pipe(dest('dist/js/'))
+    .pipe(dest('docs/js/'))
 }
 
 // Minify all js files
@@ -103,7 +103,7 @@ const minifyJavascriptTask = () => {
     .pipe(babel({ presets: ['@babel/env'] }))
     .pipe(uglify())
     .pipe(rename({ extname: '.min.js' }))
-    .pipe(dest('dist/js/'))
+    .pipe(dest('docs/js/'))
 }
 
 const watchTask = () => {
